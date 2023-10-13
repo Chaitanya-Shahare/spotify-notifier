@@ -2,7 +2,6 @@
 
 # Initialize variables to keep track of the current song
 current_song=""
-current_artist=""
 
 # Check if the argument is "--version" and return the version
 if [ "$1" = "--version" ]; then
@@ -16,23 +15,25 @@ if ! command -v terminal-notifier &> /dev/null; then
     brew install terminal-notifier
 fi
 
+# Function to send a notification
+send_notification() {
+    song_info=$(osascript -e 'tell application "Spotify" to name of current track & " - " & artist of current track')
+    terminal-notifier -title "Now Playing" -message "$song_info" -group "spotify_notification" -sender com.spotify.client 
+}
+
 # Send the initial notification
-initial_song_info=$(osascript -e 'tell application "Spotify" to name of current track & " - " & artist of current track')
-terminal-notifier -title "Now Playing" -message "$initial_song_info" -group "spotify_notification" -sender com.spotify.client
-current_song="$initial_song_info"
+send_notification
 
 # Check for song changes in a loop
 while true; do
     # Get the current song and artist from Spotify
-    song_info=$(osascript -e 'tell application "Spotify" to name of current track & " - " & artist of current track')
+    new_song_info=$(osascript -e 'tell application "Spotify" to name of current track & " - " & artist of current track')
 
     # Check if the song has changed
-    if [ "$song_info" != "$current_song" ]; then
-        # Send or update the notification using terminal-notifier
-        terminal-notifier -title "Now Playing" -message "$song_info" -group "spotify_notification" -sender com.spotify.client 
-
-        # Update the current song
-        current_song="$song_info"
+    if [ "$new_song_info" != "$current_song" ]; then
+        # Send or update the notification
+        send_notification
+        current_song="$new_song_info"
     fi
 
     # Sleep for a few seconds before checking again
