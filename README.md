@@ -41,7 +41,7 @@ This will run the script in the background and will update the output every 3 se
 ### Stop
 
 ```bash
-$ kill $(ps aux | grep "spotify-notifier.sh" | awk '{print $2}')
+$ kill -9 $(ps aux | grep "spotify-notifier" | awk '{print $2}')
 ```
 
 This will stop the script from running in the background
