@@ -4,6 +4,12 @@
 current_song=""
 current_artist=""
 
+# Check if terminal-notifier is installed, and if not, install it
+if ! command -v terminal-notifier &> /dev/null; then
+    echo "Installing terminal-notifier..."
+    brew install terminal-notifier
+fi
+
 # Send the initial notification
 initial_song_info=$(osascript -e 'tell application "Spotify" to name of current track & " - " & artist of current track')
 terminal-notifier -title "Now Playing" -message "$initial_song_info" -group "spotify_notification" -sender com.spotify.client
