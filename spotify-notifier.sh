@@ -4,6 +4,12 @@
 current_song=""
 current_artist=""
 
+# Check if the argument is "--version" and return the version
+if [ "$1" = "--version" ]; then
+    echo "v1.0.1"
+    exit 0
+fi
+
 # Check if terminal-notifier is installed, and if not, install it
 if ! command -v terminal-notifier &> /dev/null; then
     echo "Installing terminal-notifier..."
@@ -30,5 +36,5 @@ while true; do
     fi
 
     # Sleep for a few seconds before checking again
-    sleep 10
+    sleep 1
 done
