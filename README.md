@@ -33,7 +33,7 @@ It's recommended to at least set it to 3 seconds.
 ### Background
 
 ```bash
-$ nohup ./spotify-notifier.sh --update-interval 5 > /dev/null &
+$ nohup spotify-notifier --update-interval 5 > /dev/null &
 ```
 
 This will run the script in the background and will update the output every 3 seconds
